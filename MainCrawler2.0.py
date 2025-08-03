@@ -5,6 +5,7 @@ import time
 import modules
 from tkinter import Tk, Button, Frame, Entry
 from tkinter.scrolledtext import ScrolledText
+import queue
 import threading
 
 class Writer(object):
@@ -63,6 +64,9 @@ class MainGUI(Tk):
         self.log_widget = ScrolledText(self.root, height=10, width=80, font=("consolas", "10", "normal"))
         self.log_widget.pack()
 
+        self.queue = queue.Queue()
+        self.check_queue()
+
     def reset_logging(self):
             sys.stdout = sys.__stdout__
             sys.stderr = sys.__stderr__
@@ -72,26 +76,56 @@ class MainGUI(Tk):
         if not url:
             print("Please enter a URL.")
             return
-        # Start crawling in a new thread
-        # threading.Thread(target=self.crawl_and_print, args=(url,), daemon=True).start()
+        threading.Thread(target=self.crawl_and_print, args=(url,), daemon=True).start()
 
     def crawl_and_print(self, url):
         links = []
         for link in LinkCollector.collect_links(url):
-            # time.sleep(0.1)  # Simulate delay
-            print(link)
+            self.queue.put(link)  # Pass link to main thread
             links.append(link)
         if not links:
-            print("No links found.")
+            self.queue.put("No links found.")
         else:
             links = modules.module2.turnListIntoSetVersa(links)
             writer = Writer()
             writer.write_Links(links)
 
+    def check_queue(self):
+        try:
+            while True:
+                msg = self.queue.get_nowait()
+                print(msg)  # This will go through PrintLogger in the main thread
+        except queue.Empty:
+            pass
+        self.after(100, self.check_queue)  # Check again after 100ms
+
     def redirect_logging(self):
             logger = PrintLogger(self.log_widget)
             sys.stdout = logger
             sys.stderr = logger
+
+    def start_crawl(self):
+        url = self.url_input.get()
+        if not url:
+            print("Please enter a URL.")
+            return
+        self.links_iter = iter(LinkCollector.collect_links(url))
+        self.links = []
+        self.process_next_link()
+
+    def process_next_link(self):
+        try:
+            link = next(self.links_iter)
+            print(link)
+            self.links.append(link)
+            self.after(10, self.process_next_link)  # Schedule next link
+        except StopIteration:
+            if not self.links:
+                print("No links found.")
+            else:
+                links = modules.module2.turnListIntoSetVersa(self.links)
+                writer = Writer()
+                writer.write_Links(links)
 
 if __name__ == "__main__":
     app = MainGUI()
