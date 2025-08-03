@@ -73,7 +73,7 @@ class MainGUI(Tk):
             print("Please enter a URL.")
             return
         # Start crawling in a new thread
-        threading.Thread(target=self.crawl_and_print, args=(url,), daemon=True).start()
+        # threading.Thread(target=self.crawl_and_print, args=(url,), daemon=True).start()
 
     def crawl_and_print(self, url):
         links = []
