@@ -6,8 +6,6 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 
 def getAllMainLinksFromURL(currentURL):
-    retrievedURLs = []
-
     # Attempt to retrieve and print links from the given URL
     try:
         r = requests.get(currentURL, timeout=15)
@@ -17,23 +15,13 @@ def getAllMainLinksFromURL(currentURL):
             path = link.get('href')
 
             if path and path.startswith('/'):
-                retrievedURLs.append(currentURL)
-                print(f"Found link: {currentURL}")
+                yield currentURL
             else:
                 domain = urlparse(f"{path}").netloc
-                retrievedURLs.append(domain)
-                print(f"Found link: {domain}")
+                yield domain
 
     except:
         print("something bad happened for this url: " + currentURL)
-
-    # Attempt to remove duplicates from the list of URLs
-    try:
-        uniqueURLs = turnListIntoSetVersa(retrievedURLs)
-    except:
-        uniqueURLs = retrievedURLs
-
-    return uniqueURLs
 
 def turnListIntoSetVersa(listOfSorts):
     setBetween = set(listOfSorts)

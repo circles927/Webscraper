@@ -1,9 +1,11 @@
 # Main crawler, redefined using youtube video tips
 
 import sys
+import time
 import modules
 from tkinter import Tk, Button, Frame, Entry
 from tkinter.scrolledtext import ScrolledText
+import threading
 
 class Writer(object):
     def __init__(self):
@@ -22,6 +24,7 @@ class LinkCollector(object):
     def __init__(self):
         self.url = ""
 
+    @staticmethod
     def collect_links(url):
         return modules.module2.getAllMainLinksFromURL(url)
 
@@ -69,13 +72,21 @@ class MainGUI(Tk):
         if not url:
             print("Please enter a URL.")
             return
-        
-        links = LinkCollector.collect_links(url)
+        # Start crawling in a new thread
+        threading.Thread(target=self.crawl_and_print, args=(url,), daemon=True).start()
+
+    def crawl_and_print(self, url):
+        links = []
+        for link in LinkCollector.collect_links(url):
+            time.sleep(0.1)  # Simulate delay
+            print(link)
+            links.append(link)
         if not links:
             print("No links found.")
-            return
         else:
-            Writer().write_Links(links)
+            links = modules.module2.turnListIntoSetVersa(links)
+            writer = Writer()
+            writer.write_Links(links)
 
     def redirect_logging(self):
             logger = PrintLogger(self.log_widget)
