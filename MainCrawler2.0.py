@@ -81,6 +81,7 @@ class MainGUI(Tk):
     def crawl_and_print(self, url):
         links = []
         for link in LinkCollector.collect_links(url):
+            # time.sleep(0.1) # Actually, putting in a sleep here slows it down considerable, and leads to unexpected behavior(according to me).
             self.queue.put(link)  # Pass link to main thread
             links.append(link)
         if not links:
