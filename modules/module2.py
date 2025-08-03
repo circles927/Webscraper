@@ -1,7 +1,6 @@
 # module1, redefined using youtube video tips
 
 import requests
-import time
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 
