@@ -1,10 +1,10 @@
 # This is going to be my main Python Webcrawler
 # ---------------------------
 import tkinter as tk
-import time
-import requests
+# import time
+# import requests
 from tkinter import ttk
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 import modules
 
 # Global variables:
