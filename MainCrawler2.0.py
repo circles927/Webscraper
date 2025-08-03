@@ -5,6 +5,26 @@ import modules
 from tkinter import Tk, Button, Frame, Entry
 from tkinter.scrolledtext import ScrolledText
 
+class Writer(object):
+    def __init__(self):
+        self.links = {}
+
+    def write_Links(self, links):
+        with open('output.txt', 'w') as fileOut:
+            for url in links:
+                fileOut.write(f"{url}\n")
+        
+            print(f"Written {len(links)} unique URLs to output.txt")
+
+            fileOut.close()
+
+class LinkCollector(object):
+    def __init__(self):
+        self.url = ""
+
+    def collect_links(url):
+        return modules.module2.getAllMainLinksFromURL(url)
+
 class PrintLogger(object):
     def __init__(self, textbox):
         self.textbox = textbox
@@ -44,16 +64,18 @@ class MainGUI(Tk):
             sys.stdout = sys.__stdout__
             sys.stderr = sys.__stderr__
 
-
     def run_module2(self):
-            uniqueCollectionURLs = modules.module2.getAllMainLinksFromURL(self.url_input.get())
-
-            with open('output.txt', 'w') as fileOut:
-                for url in uniqueCollectionURLs:
-                    fileOut.write(f"{url}\n")
-            print(f"Written {len(uniqueCollectionURLs)} unique URLs to output.txt")
-
-            fileOut.close()
+        url = self.url_input.get()
+        if not url:
+            print("Please enter a URL.")
+            return
+        
+        links = LinkCollector.collect_links(url)
+        if not links:
+            print("No links found.")
+            return
+        else:
+            Writer().write_Links(links)
 
     def redirect_logging(self):
             logger = PrintLogger(self.log_widget)
