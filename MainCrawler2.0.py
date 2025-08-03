@@ -78,7 +78,7 @@ class MainGUI(Tk):
     def crawl_and_print(self, url):
         links = []
         for link in LinkCollector.collect_links(url):
-            time.sleep(0.1)  # Simulate delay
+            # time.sleep(0.1)  # Simulate delay
             print(link)
             links.append(link)
         if not links:
