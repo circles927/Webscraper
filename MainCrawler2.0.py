@@ -1,7 +1,7 @@
 # Main crawler, redefined using youtube video tips
 
 import sys
-# import time
+import time
 import modules
 from tkinter import Tk, Button, Frame, Entry
 from tkinter.scrolledtext import ScrolledText
@@ -81,7 +81,7 @@ class MainGUI(Tk):
     def crawl_and_print(self, url):
         links = []
         for link in LinkCollector.collect_links(url):
-            # time.sleep(0.1) # Actually, putting in a sleep here slows it down considerable, and leads to unexpected behavior(according to me).
+            time.sleep(0.05) # Found the right speed at which to sleep without unexpected behavior.
             self.queue.put(link)  # Pass link to main thread
             links.append(link)
         if not links:
