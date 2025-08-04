@@ -1,7 +1,7 @@
 # Main crawler, redefined using youtube video tips
 
 import sys
-import time
+# import time
 import modules
 from tkinter import Tk, Button, Frame, Entry
 from tkinter.scrolledtext import ScrolledText
