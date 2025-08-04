@@ -6,7 +6,7 @@ import modules
 from tkinter import Tk, Button, Frame, Entry
 from tkinter.scrolledtext import ScrolledText
 import queue
-import threading
+# import threading
 
 class Writer(object):
     def __init__(self):
@@ -57,7 +57,7 @@ class MainGUI(Tk):
         self.redirect_button.pack()
         self.reset_button = Button(self.root, text="Reset console redirect", command=self.reset_logging)
         self.reset_button.pack()
-        self.test_button = Button(self.root, text="Test print", command=self.run_module2)
+        self.test_button = Button(self.root, text="Test print", command=self.start_crawl)
         self.test_button.pack()
 
         # Text widget for displaying output
@@ -71,25 +71,25 @@ class MainGUI(Tk):
             sys.stdout = sys.__stdout__
             sys.stderr = sys.__stderr__
 
-    def run_module2(self):
-        url = self.url_input.get()
-        if not url:
-            print("Please enter a URL.")
-            return
-        threading.Thread(target=self.crawl_and_print, args=(url,), daemon=True).start()
+    # def run_module2(self):
+    #     url = self.url_input.get()
+    #     if not url:
+    #         print("Please enter a URL.")
+    #         return
+    #     threading.Thread(target=self.crawl_and_print, args=(url,), daemon=True).start()
 
-    def crawl_and_print(self, url):
-        links = []
-        for link in LinkCollector.collect_links(url):
-            time.sleep(0.05) # Found the right speed at which to sleep without unexpected behavior.
-            self.queue.put(link)  # Pass link to main thread
-            links.append(link)
-        if not links:
-            self.queue.put("No links found.")
-        else:
-            links = modules.module2.turnListIntoSetVersa(links)
-            writer = Writer()
-            writer.write_Links(links)
+    # def crawl_and_print(self, url):
+    #     links = []
+    #     for link in LinkCollector.collect_links(url):
+    #         time.sleep(0.05) # Found the right speed at which to sleep without unexpected behavior.
+    #         self.queue.put(link)  # Pass link to main thread
+    #         links.append(link)
+    #     if not links:
+    #         self.queue.put("No links found.")
+    #     else:
+    #         links = modules.module2.turnListIntoSetVersa(links)
+    #         writer = Writer()
+    #         writer.write_Links(links)
 
     def check_queue(self):
         try:
