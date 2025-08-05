@@ -64,41 +64,9 @@ class MainGUI(Tk):
         self.log_widget = ScrolledText(self.root, height=10, width=80, font=("consolas", "10", "normal"))
         self.log_widget.pack()
 
-        self.queue = queue.Queue()
-        self.check_queue()
-
     def reset_logging(self):
             sys.stdout = sys.__stdout__
             sys.stderr = sys.__stderr__
-
-    # def run_module2(self):
-    #     url = self.url_input.get()
-    #     if not url:
-    #         print("Please enter a URL.")
-    #         return
-    #     threading.Thread(target=self.crawl_and_print, args=(url,), daemon=True).start()
-
-    # def crawl_and_print(self, url):
-    #     links = []
-    #     for link in LinkCollector.collect_links(url):
-    #         time.sleep(0.05) # Found the right speed at which to sleep without unexpected behavior.
-    #         self.queue.put(link)  # Pass link to main thread
-    #         links.append(link)
-    #     if not links:
-    #         self.queue.put("No links found.")
-    #     else:
-    #         links = modules.module2.turnListIntoSetVersa(links)
-    #         writer = Writer()
-    #         writer.write_Links(links)
-
-    def check_queue(self):
-        try:
-            while True:
-                msg = self.queue.get_nowait()
-                print(msg)  # This will go through PrintLogger in the main thread
-        except queue.Empty:
-            pass
-        self.after(100, self.check_queue)  # Check again after 100ms
 
     def redirect_logging(self):
             logger = PrintLogger(self.log_widget)
