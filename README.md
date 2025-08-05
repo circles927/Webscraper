@@ -10,6 +10,8 @@ Als je Python en alles hebt geïnstalleerd (en de dependencies etc), dan kan je 
 
 En dan gaat ie dan alle linkjes van de website af halen die van belang zijn, en geeft ze weer op het scherm. Aan het einde schrijft hij ook de unieke linkjes weg in een textbestand in dezelfde map als het programma.
 
+Het kost wel enige moeite om Python te installeren. En de dependencies. En je moet ook weten hoe je de venv opent. Als je dat voor elkaar krijgt en je hebt hier bijvoorbeeld de code gedownload. Dan zou het moeten werken. 
+
 Dit is op zich een interessant project om als beginner op te pakken. Het is een bot die over het internet surft en bepaalde data voor je automatisch verzameld.
 
 Dat kan inhouden dat je slechts links verzameld naar verder gelinkte websites. Denk aan te beginnen op startpagina en daar alle links af te gaan om te kijken wat voor een websites je allemaal gevonden kunt krijgen.
