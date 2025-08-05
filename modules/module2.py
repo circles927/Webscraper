@@ -15,7 +15,7 @@ def getAllMainLinksFromURL(currentURL):
             path = link.get('href')
 
             if path and path.startswith('/'):
-                # Construct the full URL if the path is relative
+                # Just display main url if path is relative to main domain
                 yield currentURL
             else:
                 # Cut the link to the main domain name only
