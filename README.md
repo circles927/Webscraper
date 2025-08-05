@@ -3,7 +3,7 @@
 Dit is een poging tot een webscraper.
 
 Wel even wat instructies voor de echte leken onder ons:
-Als je Python en alles hebt geïnstalleerd, dan kan je het programmaatje starten en dan krijg je een venstertje te zien. 
+Als je Python en alles hebt geïnstalleerd (en de dependencies etc), dan kan je het programmaatje starten en dan krijg je een venstertje te zien. 
 - Je voert daar een URL in zoals https://www.startpagina.nl. 
 - Je klikt eenmaal op redirect console to widget.
 - En je klikt op Run crawl.
