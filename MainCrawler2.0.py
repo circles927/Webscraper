@@ -30,6 +30,7 @@ class LinkCollector(object):
         return modules.module2.getAllMainLinksFromURL(url)
 
 class PrintLogger(object):
+    # Setting up widget for logging
     def __init__(self, textbox):
         self.textbox = textbox
     
@@ -38,7 +39,7 @@ class PrintLogger(object):
         self.textbox.insert('end', text)
         self.textbox.see('end')
         self.textbox.configure(state='disabled')
-    
+    # This is needed to prevent the text widget from being edited directly
     def flush(self):
         pass
 
@@ -50,6 +51,7 @@ class MainGUI(Tk):
 
         # Setting up url input Entry
         self.url_input = Entry(self.root, width=50)
+        self.url_input.insert(0, "https://")
         self.url_input.pack()
 
         # Buttons for interaction
@@ -65,19 +67,23 @@ class MainGUI(Tk):
         self.log_widget.pack()
 
     def reset_logging(self):
-            sys.stdout = sys.__stdout__
-            sys.stderr = sys.__stderr__
+        # Reset stdout and stderr to default
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
 
     def redirect_logging(self):
-            logger = PrintLogger(self.log_widget)
-            sys.stdout = logger
-            sys.stderr = logger
+        # Redirect stdout and stderr to the text widget
+        logger = PrintLogger(self.log_widget)
+        sys.stdout = logger
+        sys.stderr = logger
 
     def start_crawl(self):
+        # Checks for input URL
         url = self.url_input.get()
         if not url:
             print("Please enter a URL.")
             return
+        # Start the link collection process
         self.links_iter = iter(LinkCollector.collect_links(url))
         self.links = []
         self.process_next_link()
@@ -85,13 +91,17 @@ class MainGUI(Tk):
     def process_next_link(self):
         try:
             link = next(self.links_iter)
+            # Print the line to console like intended
             print(link)
             self.links.append(link)
             self.after(10, self.process_next_link)  # Schedule next link
+        # Apparently the program throws an exception when done    
         except StopIteration:
             if not self.links:
+                # No links collected
                 print("No links found.")
             else:
+                # Writing to file eventually
                 links = modules.module2.turnListIntoSetVersa(self.links)
                 writer = Writer()
                 writer.write_Links(links)
