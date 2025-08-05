@@ -59,7 +59,7 @@ class MainGUI(Tk):
         self.redirect_button.pack()
         self.reset_button = Button(self.root, text="Reset console redirect", command=self.reset_logging)
         self.reset_button.pack()
-        self.test_button = Button(self.root, text="Test print", command=self.start_crawl)
+        self.test_button = Button(self.root, text="Run crawl", command=self.start_crawl)
         self.test_button.pack()
 
         # Text widget for displaying output
