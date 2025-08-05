@@ -6,7 +6,8 @@ Wel even wat instructies voor de echte leken onder ons:
 Als je Python en alles hebt geïnstalleerd, dan kan je het programmaatje starten en dan krijg je een venstertje te zien. 
 - Je voert daar een URL in zoals https://www.startpagina.nl. 
 - Je klikt eenmaal op redirect console to widget.
-- En je klikt op Run crawl 
+- En je klikt op Run crawl.
+
 En dan gaat ie dan alle linkjes van de website af halen die van belang zijn, en geeft ze weer op het scherm. Aan het einde schrijft hij ook de unieke linkjes weg in een textbestand in dezelfde map als het programma.
 
 Dit is op zich een interessant project om als beginner op te pakken. Het is een bot die over het internet surft en bepaalde data voor je automatisch verzameld.
