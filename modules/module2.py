@@ -11,11 +11,14 @@ def getAllMainLinksFromURL(currentURL):
         soup = BeautifulSoup(r.text, 'html.parser')
 
         for link in soup.find_all('a'):
+            # Searches the link
             path = link.get('href')
 
             if path and path.startswith('/'):
+                # If the link doesn't have www, leave it out
                 yield currentURL
             else:
+                # Cut the link to the main domain name only
                 domain = urlparse(f"{path}").netloc
                 yield domain
 
@@ -23,6 +26,7 @@ def getAllMainLinksFromURL(currentURL):
         print("something bad happened for this url: " + currentURL)
 
 def turnListIntoSetVersa(listOfSorts):
+    # Turns a list into a set and back to a list to remove duplicates
     setBetween = set(listOfSorts)
     listAgain = list(setBetween)
 
