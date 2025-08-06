@@ -5,8 +5,6 @@ import sys
 import modules
 from tkinter import Tk, Button, Frame, Entry
 from tkinter.scrolledtext import ScrolledText
-import queue
-# import threading
 
 class Writer(object):
     def __init__(self):
