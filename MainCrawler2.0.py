@@ -106,4 +106,5 @@ class MainGUI(Tk):
 
 if __name__ == "__main__":
     app = MainGUI()
+    app.geometry("700x400")
     app.mainloop()
