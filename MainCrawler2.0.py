@@ -1,10 +1,11 @@
 # Main crawler, redefined using youtube video tips
-
+import os
 import sys
 # import time
 import modules
 from tkinter import Tk, Button, Frame, Entry
 from tkinter.scrolledtext import ScrolledText
+import serpapi  
 
 class Writer(object):
     def __init__(self):
@@ -77,14 +78,25 @@ class MainGUI(Tk):
 
     def start_crawl(self):
         # Checks for input URL
-        url = self.url_input.get()
-        if not url:
-            print("Please enter a URL.")
-            return
-        # Start the link collection process
-        self.links_iter = iter(LinkCollector.collect_links(url))
-        self.links = []
-        self.process_next_link()
+
+        for url in results:
+            self.links_iter = iter(LinkCollector.collect_links(url))
+            self.links = []
+            self.process_next_link()
+        
+        # for url in seed_urls:
+        #     self.links_iter = iter(LinkCollector.collect_links(url))
+        #     self.links = []
+        #     self.process_next_link()
+
+        # url = self.url_input.get()
+        # if not url:
+        #     print("Please enter a URL.")
+        #     return
+        # # Start the link collection process
+        # self.links_iter = iter(LinkCollector.collect_links(url))
+        # self.links = []
+        # self.process_next_link()
 
     def process_next_link(self):
         try:
@@ -103,6 +115,13 @@ class MainGUI(Tk):
                 links = modules.module2.turnListIntoSetVersa(self.links)
                 writer = Writer()
                 writer.write_Links(links)
+
+client = serpapi.Client(api_key=os.getenv("API_KEY"))
+results = client.search({
+    'engine': 'bing',
+    'q': 'tools voor developers',
+})
+
 
 if __name__ == "__main__":
     app = MainGUI()
