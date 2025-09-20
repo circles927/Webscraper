@@ -5,7 +5,10 @@ import sys
 import modules
 from tkinter import Tk, Button, Frame, Entry
 from tkinter.scrolledtext import ScrolledText
+from dotenv import load_dotenv
 import serpapi  
+
+load_dotenv()
 
 class Writer(object):
     def __init__(self):
@@ -79,6 +82,12 @@ class MainGUI(Tk):
     def start_crawl(self):
         # Checks for input URL
 
+        client = serpapi.Client(api_key=os.getenv("API_KEY"))
+        results = client.search({
+            'engine': 'bing',
+            'q': 'tools voor developers',
+        })
+
         for url in results:
             self.links_iter = iter(LinkCollector.collect_links(url))
             self.links = []
@@ -115,12 +124,6 @@ class MainGUI(Tk):
                 links = modules.module2.turnListIntoSetVersa(self.links)
                 writer = Writer()
                 writer.write_Links(links)
-
-client = serpapi.Client(api_key=os.getenv("API_KEY"))
-results = client.search({
-    'engine': 'bing',
-    'q': 'tools voor developers',
-})
 
 
 if __name__ == "__main__":
