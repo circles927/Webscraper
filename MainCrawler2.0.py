@@ -29,7 +29,7 @@ class LinkCollector(object):
 
     @staticmethod
     def collect_links(url):
-        return modules.module2.getAllMainLinksFromURL(url)
+        return modules.module1.getAllMainLinksFromURL(url)
 
 class PrintLogger(object):
     # Setting up widget for logging
@@ -81,31 +81,29 @@ class MainGUI(Tk):
 
     def start_crawl(self):
         # Checks for input URL
-
-        client = serpapi.Client(api_key=os.getenv("API_KEY"))
-        results = client.search({
-            'engine': 'bing',
-            'q': 'tools voor developers',
-        })
-
-        for url in results:
-            self.links_iter = iter(LinkCollector.collect_links(url))
-            self.links = []
-            self.process_next_link()
         
         # for url in seed_urls:
         #     self.links_iter = iter(LinkCollector.collect_links(url))
         #     self.links = []
         #     self.process_next_link()
 
-        # url = self.url_input.get()
-        # if not url:
-        #     print("Please enter a URL.")
-        #     return
-        # # Start the link collection process
-        # self.links_iter = iter(LinkCollector.collect_links(url))
-        # self.links = []
-        # self.process_next_link()
+        url = self.url_input.get()
+        if not url:
+            print("Please enter a URL.")
+            return
+
+        # Check robots.txt
+        rp = modules.module2.checkRobotsTxt(url)
+
+        acceptedURL = modules.module2.robotsPermission(rp, url)
+        if not acceptedURL:
+            print("Crawling not permitted by robots.txt.")
+            return
+        else:
+            # Start the link collection process
+            self.links_iter = iter(LinkCollector.collect_links(acceptedURL))
+            self.links = []
+            self.process_next_link()
 
     def process_next_link(self):
         try:
@@ -121,7 +119,7 @@ class MainGUI(Tk):
                 print("No links found.")
             else:
                 # Writing to file eventually
-                links = modules.module2.turnListIntoSetVersa(self.links)
+                links = modules.module1.turnListIntoSetVersa(self.links)
                 writer = Writer()
                 writer.write_Links(links)
 

@@ -1,0 +1,17 @@
+ga naar de betreffende map
+(cd "Github Repo's")
+
+eenmaal:
+python -m venv venv
+-
+dan:
+Set-ExecutionPolicy Unrestricted -Scope Process
+venv\Scripts\activate.ps1
+
+en
+
+deactivate
+
+---------------------------
+
+serpapi API key: f3470dfee347f50b4d083565e287844e1fe02a8a44b5b8d4b9ae79c6e6227ac7
